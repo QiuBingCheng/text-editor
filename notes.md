@@ -1,5 +1,9 @@
 # 如何執行 C 程式？
-執行 C 語言程式，需要先安裝 gcc 組件，並在 bash 環境中輸入以下指令
+
+## GCC (GNU Compiler Collection) 基本介紹
+gcc 是為 C、C++ 和 Fortran等語言提供編譯功能的工具組。
+
+執行 C 語言程式，需先使用 gcc 編譯成可執行檔案，我們在 bash 環境中輸入以下指令
 
     gcc kilo.c -o kilo
 
@@ -28,5 +32,8 @@
    2. 重定位 ( Relocation )
    3. 合併目標代碼
    4. 生成輸出文件
-
-## 預處理 ( Preprocessing )
+   
+## terminal
+terminal 有兩種輸入模式，*canonical input processing*、*noncanonical input processing* 兩種。
+   * Canonical mode: 終端機以行 (line) 作為單位來觸發輸入動作，即使用者按下 Enter 鍵後產生表示行尾的特殊字元 ('\n') 後開始進行輸入。
+   * Noncanonical mode: 終端機則是每一字元就觸發輸入動作，無須緩衝。
