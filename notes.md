@@ -2,16 +2,13 @@
 * 1. [GCC (GNU Compiler Collection) 基本介紹](#GCCGNUCompilerCollection)
 * 2. [C executable](#Cexecutable)
 	* 2.1. [Depoly to other machines](#Depolytoothermachines)
-* 3. [terminal](#terminal)
-* 4. [Language features](#Languagefeatures)
-	* 4.1. [bitflag](#bitflag)
 
 <!-- vscode-markdown-toc-config
 	numbering=true
 	autoSave=true
 	/vscode-markdown-toc-config -->
 <!-- /vscode-markdown-toc -->
-# C learning notes
+# Compile
 
 ##  1. <a name='GCCGNUCompilerCollection'></a>GCC (GNU Compiler Collection) 基本介紹
 gcc 是為 C、C++ 和 Fortran等語言提供編譯功能的工具組。
@@ -52,31 +49,3 @@ C 可執行檔 由 C 語言編譯而成，獨立於原始碼的二進位檔案�
 * 確認目標平台：確認目標機台的作業系統和架構
 * 交叉編譯：在開發機上編譯於目標機台的執行檔
 * 測試和除錯。
-
-##  3. <a name='terminal'></a>terminal
-terminal 有兩種輸入模式，*canonical input processing*、*noncanonical input processing* 兩種。
-   * Canonical mode: 終端機以行 (line) 作為單位來觸發輸入動作，即使用者按下 Enter 鍵後產生表示行尾的特殊字元 (`\n`) 後開始進行輸入。
-   * Noncanonical mode (raw mode): 終端機則是每一字元就觸發輸入動作，無須緩衝。
-### Raw mode
-* Arrow keys, `Page Up`, `Page Down`, `Home`, 和 `End` 都會輸入 3 或 4 bytes 到終端。`27`,`[`，後面接續 1-2 個字元，例如`Page Up` 是 `27`,`[`,`5`,`~`。這些被稱為 跳脫序列 (escape sequence)。
-* `Backspace` 是 byte 127。`Delete` 是 4 byte 的跳脫序列。
-* `Enter` 是 byte 10。換行字元 (`'\n'`)
-* `Ctrl-S` 會觸發[XON/XOFF流控制](https://en.wikipedia.org/wiki/Software_flow_control)而停止輸出。`Ctrl-Q`恢復輸出。
-
-##  4. <a name='Languagefeatures'></a>Language features
-###  4.1. <a name='bitflag'></a>bitflag
-`ECHO` 是 `termios` 屬性 `c_lflag` 中的一組 flag，決定是否將輸入字元回聲到終端機。假設 `c_lflag` 是 `111`，ECHO 是 `001`，要關閉 `ECHO` 可使用 `c_lflag &= ~ECHO` 指令，將會讓c_lflag 變成 `110`。
-以下是關閉 `ECHO` 的完整的範例
-
-    struct termios term;
-    
-    // Get the current terminal attributes
-    tcgetattr(STDIN_FILENO, &term);
-    
-    // Turn off the ECHO flag
-    term.c_lflag &= ~ECHO;
-    
-    // Set the modified terminal attributes
-    tcsetattr(STDIN_FILENO, TCSANOW, &term);
-    
-    // Now input characters won't be echoed back to the terminal
