@@ -4,7 +4,7 @@
 ## Learning Notes
 * [Compile](notes/compile.md)
 * [C features](notes/features.md)
-* [C functions](notes/features.md)
+* [C functions](notes/functions.md)
 * [terminal](notes/terminal.md)
   
 ## References
