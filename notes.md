@@ -1,17 +1,16 @@
 <!-- vscode-markdown-toc -->
 * 1. [GCC (GNU Compiler Collection) 基本介紹](#GCCGNUCompilerCollection)
-* 2. [C 可執行檔 (executable)](#Cexecutable)
-	* 2.1. [部屬到其他機台具體流程](#)
+* 2. [C executable](#Cexecutable)
+	* 2.1. [Depoly to other machines](#Depolytoothermachines)
 * 3. [terminal](#terminal)
-* 4. [語言特性](#-1)
+* 4. [Language features](#Languagefeatures)
 	* 4.1. [bitflag](#bitflag)
 
 <!-- vscode-markdown-toc-config
 	numbering=true
 	autoSave=true
 	/vscode-markdown-toc-config -->
-<!-- /vscode-markdown-toc -->
-#  C 程式 學習筆記
+<!-- /vscode-markdown-toc --># C learning notes
 
 ##  1. <a name='GCCGNUCompilerCollection'></a>GCC (GNU Compiler Collection) 基本介紹
 gcc 是為 C、C++ 和 Fortran等語言提供編譯功能的工具組。
@@ -45,10 +44,10 @@ gcc 是為 C、C++ 和 Fortran等語言提供編譯功能的工具組。
    2. 重定位 ( Relocation )
    3. 合併目標代碼
    4. 生成輸出文件
-##  2. <a name='Cexecutable'></a>C 可執行檔 (executable)
+##  2. <a name='Cexecutable'></a>C executable
 C 可執行檔 由 C 語言編譯而成，獨立於原始碼的二進位檔案，可以在支援相應架構和作業系統電腦上運行，換句話說，如果目標機台是不同作業系統，很有可能無法順利運作。
 
-###  2.1. <a name=''></a>部屬到其他機台具體流程
+###  2.1. <a name='Depolytoothermachines'></a>Depoly to other machines
 * 確認目標平台：確認目標機台的作業系統和架構
 * 交叉編譯：在開發機上編譯於目標機台的執行檔
 * 測試和除錯。
@@ -58,7 +57,7 @@ terminal 有兩種輸入模式，*canonical input processing*、*noncanonical in
    * Canonical mode: 終端機以行 (line) 作為單位來觸發輸入動作，即使用者按下 Enter 鍵後產生表示行尾的特殊字元 ('\n') 後開始進行輸入。
    * Noncanonical mode: 終端機則是每一字元就觸發輸入動作，無須緩衝。
   
-##  4. <a name='-1'></a>語言特性
+##  4. <a name='Languagefeatures'></a>Language features
 ###  4.1. <a name='bitflag'></a>bitflag
 `ECHO` 是 `termios` 屬性 `c_lflag` 中的一組 flag，決定是否將輸入字元回聲到終端機。假設 `c_lflag` 是 `111`，ECHO 是 `001`，要關閉 `ECHO` 可使用 `c_lflag &= ~ECHO` 指令，將會讓c_lflag 變成 `110`。
 以下是關閉 `ECHO` 的完整的範例
