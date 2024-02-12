@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <termios.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 struct termios orig_termios;
 
@@ -33,7 +34,7 @@ int main()
         }
         else
         {
-            printf("%d ('%c')\n", c, c)
+            printf("%d ('%c')\n", c, c);
         }
     };
     return 0;
