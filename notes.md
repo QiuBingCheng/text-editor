@@ -10,7 +10,8 @@
 	numbering=true
 	autoSave=true
 	/vscode-markdown-toc-config -->
-<!-- /vscode-markdown-toc --># C learning notes
+<!-- /vscode-markdown-toc -->
+# C learning notes
 
 ##  1. <a name='GCCGNUCompilerCollection'></a>GCC (GNU Compiler Collection) 基本介紹
 gcc 是為 C、C++ 和 Fortran等語言提供編譯功能的工具組。
