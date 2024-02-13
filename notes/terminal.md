@@ -1,7 +1,8 @@
 <!-- vscode-markdown-toc -->
 * 1. [termios](#termios)
-	* 1.1. [c_iflag](#c_iflag)
-	* 1.2. [c_lflag](#c_lflag)
+	* 1.1. [`c_iflag`](#c_iflag)
+	* 1.2. [`c_lflag`](#c_lflag)
+	* 1.3. [`c_cc`](#c_cc)
 * 2. [Canonical mode vs Noncanonical mode (raw mode)](#CanonicalmodevsNoncanonicalmoderawmode)
 	* 2.1. [Escape caracter、Escape sequence](#EscapecaracterEscapesequence)
 	* 2.2. [Signal](#Signal)
@@ -22,19 +23,26 @@
 * `c_cflag`：用於設置終端控制特性的標誌，例如波特率、數據位、停止位。
 * `c_lflag`：用於設置終端行為的標誌，例如啟用規範模式、啟用回顯。
 * `c_cc`： 用於設置特殊控制字符的數組，例如終止字符、擦除字符。
-以下僅列舉出本次專案中有使用到的 `c_iflag` 和 `c_lflag` 兩種成員變數，以及其相關控制標誌。
+  
+以下列舉出本次專案中有使用到的 `c_iflag` 、 `c_lflag` 和 `c_cc` 三種成員變數，以及其擁有的一系列標誌位 (bitflag)。
 
-###  1.1. <a name='c_iflag'></a>c_iflag
-`termios`的其中一個成員變數，用於設置終端**輸入模式**的標誌。
+###  1.1. <a name='c_iflag'></a>`c_iflag`
+`termios`的一個成員變數，用於設置終端**輸入模式**的標誌。
 * `ICRNL`：將輸入中的回車符映射為換行符
 * `IXON`：啟用軟件流控制 ([XON/XOFF流控制](https://en.wikipedia.org/wiki/Software_flow_control))
-###  1.2. <a name='c_lflag'></a>c_lflag
-是 `struct termios` 的一個變數，存儲了一系列標誌位 (bitflag)，用於控制終端行為。常見的 bitflag 如下：
+  
+###  1.2. <a name='c_lflag'></a>`c_lflag`
+是 `struct termios` 的一個成員變數，用於**控制終端行為**。常見的 bitflag 如下：
 
 * `ECHO`：控制是否在終端上回顯輸入字符。
 * `ICANON`：控制終端是否處於規範模式，即是否按行進行輸入處理。
 * `ISIG`：控制是否允許處理終端產生的信號字符。若關閉，則標示會將 `Ctrl+C` 等特信號字符視為普通的輸入字符。
 * `IEXTEN`：控制是否啟用特定的輸入處理擴展。在某些系統上，如果輸入`Ctrl-V`後，再輸入另一個字元 `Ctrl-C`，系統將視為普通的輸入字符。
+
+###  1.3. <a name='c_cc'></a>`c_cc`
+是 `struct termios` 的一個成員變數，用於設定**特殊控制字符**。常見的 bitflag 如下
+* `VMIN`：表示終端設備在讀取輸入時要求的最小字符數目。如果設置為零，`read()` 函數將立即返回，不等待任何字符。
+* VTIME：表示終端設備在讀取輸入時的超時時間。如果在超時時間內未收到`VMIN`字符，`read()`將返回 `0`。
   
 ##  2. <a name='CanonicalmodevsNoncanonicalmoderawmode'></a>Canonical mode vs Noncanonical mode (raw mode)
 terminal 有兩種輸入模式，*canonical input processing*、*noncanonical input processing* 兩種。
