@@ -9,6 +9,21 @@
 <!-- /vscode-markdown-toc -->
 # C Language Features
 
+## Strings
+C語言中的字串就是字元的集合，以空字符（null character，`'\0'`）结尾。
+
+    char str[] = "Hello, world!"; // 字符串以空字符结尾
+    printf("%s\n", str); // 輸出字串
+
+如果字串是動態分配的，可以使用 `strlen` 獲取字串長度，並在分配記憶體時多分配一個 byte 來儲存空字符。
+
+    char *str = malloc(strlen("Hello, world!") + 1); 
+    strcpy(str, "Hello, world!"); 
+    printf("%s\n", str); 
+    free(str);
+
+
+
 ##  1. <a name='Operation'></a>Operation
 ###  1.1. <a name='bitflagoperation'></a>bitflag operation
 `ECHO` 是 `c_lflag` 中的一組 flag，決定是否將輸入字元回聲到終端機。假設 `c_lflag` 是 `111`，ECHO 是 `001`，要關閉 `ECHO` 可使用 `c_lflag &= ~ECHO` 指令，將會讓c_lflag 變成 `110`。
