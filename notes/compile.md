@@ -1,7 +1,11 @@
 <!-- vscode-markdown-toc -->
 * 1. [GCC (GNU Compiler Collection) 基本介紹](#GCCGNUCompilerCollection)
-* 2. [C executable](#Cexecutable)
-	* 2.1. [Depoly to other machines](#Depolytoothermachines)
+* 2. [Preprocessor](#Preprocessor)
+	* 2.1. [Preprocessor directives](#Preprocessordirectives)
+	* 2.2. [Preprocessor operators](#Preprocessoroperators)
+	* 2.3. [Predefined macros](#Predefinedmacros)
+	* 2.4. [Pragmas](#Pragmas)
+* 3. [Depoly](#Depoly)
 
 <!-- vscode-markdown-toc-config
 	numbering=true
@@ -11,9 +15,9 @@
 # Compile
 
 ##  1. <a name='GCCGNUCompilerCollection'></a>GCC (GNU Compiler Collection) 基本介紹
-gcc 是為 C、C++ 和 Fortran等語言提供編譯功能的工具組。
+GCC 是為 C、C++ 和 Fortran等語言提供編譯功能的工具組。
 
-執行 C 語言程式，需先使用 gcc 編譯成可執行檔案，我們在 bash 環境中輸入以下指令
+執行 C 語言程式，需先使用 GCC 編譯成可執行檔案，我們在 bash 環境中輸入以下指令
 
     gcc kilo.c -o kilo
 
@@ -42,10 +46,18 @@ gcc 是為 C、C++ 和 Fortran等語言提供編譯功能的工具組。
    2. 重定位 ( Relocation )
    3. 合併目標代碼
    4. 生成輸出文件
-##  2. <a name='Cexecutable'></a>C executable
+   
+##  2. <a name='Preprocessor'></a>Preprocessor
+
+###  2.1. <a name='Preprocessordirectives'></a>Preprocessor directives
+###  2.2. <a name='Preprocessoroperators'></a>Preprocessor operators
+###  2.3. <a name='Predefinedmacros'></a>Predefined macros
+###  2.4. <a name='Pragmas'></a>Pragmas
+
+##  3. <a name='Depoly'></a>Depoly
 C 可執行檔 由 C 語言編譯而成，獨立於原始碼的二進位檔案，可以在支援相應架構和作業系統電腦上運行，換句話說，如果目標機台是不同作業系統，很有可能無法順利運作。
 
-###  2.1. <a name='Depolytoothermachines'></a>Depoly to other machines
+若想部屬到其他機台上，可參考以下流程：
 * 確認目標平台：確認目標機台的作業系統和架構
 * 交叉編譯：在開發機上編譯於目標機台的執行檔
 * 測試和除錯。
