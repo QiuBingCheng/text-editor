@@ -15,7 +15,7 @@
 # Terminal learning notes
 
 ##  1. <a name='termios'></a>termios
-`termios` 是 POSIX 標準中的一部分，是用於在 UNIX 系統中控制終端 (terminal) 設備特性的資料結構。
+`termios` 是 [POSIX](references.md#POSIX) 標準中的一部分，是用於在 UNIX 系統中控制終端 (terminal) 設備特性的資料結構。
 
 `termios`成員變數包括以下：
 * `c_iflag`：用於設置終端輸入模式的標誌。
@@ -55,6 +55,23 @@ terminal 有兩種輸入模式，*canonical input processing*、*noncanonical in
 * `Enter` 是 byte 10。換行字元 (`'\n'`)
 
 ###  2.2. <a name='Signal'></a>Signal
+Ctrl 鍵與其他鍵配合使用時，會將該鍵的 ASCII 碼值前三位設置為0，即去除 ASCII 碼值的前三位，從而得到 Ctrl 鍵配合按下的字符的 ASCII 值。
+
+模擬函數如下：
+
+	CTRL_KEY(k) ((k) & 0x1f)
+
+
+例如按下`Ctrl-C`，`'c'` 的 ASCII 碼值是 99，二進制為`01100011`，`0x1f` 的 二進制為 `00011111`，兩個做 AND `&` 運算結果為 `00000011`，為控制字符 `ETX` (end of text)。
+
+	  01100011   (ASCII碼 'c')
+	& 00011111   (0x1f)
+	  ----------
+	  00000011   (結果為 3)
+
+
+以下列舉一些常見的Crtl 組合鍵：
+
 * `Ctrl-S` 會觸發[XON/XOFF流控制](https://en.wikipedia.org/wiki/Software_flow_control)而停止輸出。`Ctrl-Q`恢復輸出。
-* `Ctrl-C` 觸發 `SIGINT` signal 到當前 process，導致終止程序。
-* `Ctrl-Z` 觸發 `SIGTSTP` signal 到當前 process，導致暫停程序。
+* `Ctrl-C` 觸發 `SIGINT` signal **終止程序**。
+* `Ctrl-Z` 觸發 `SIGTSTP` signal **暫停程序。**
