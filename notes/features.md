@@ -14,6 +14,8 @@
 
 ##  1. <a name='DataTypes'></a>Data Types
 ###  1.1. <a name='Strings'></a>Strings
+
+#### 初始化
 C語言中的字串就是字元的集合，以空字符（null character，`'\0'`）结尾。
 
     char str[] = "Hello, world!"; // 字符串以空字符结尾
@@ -25,6 +27,15 @@ C語言中的字串就是字元的集合，以空字符（null character，`'\0'
     strcpy(str, "Hello, world!"); 
     printf("%s\n", str); 
     free(str);
+
+#### printf
+使用 printf 打印整個字串
+
+    printf("%s", str);
+
+使用 printf 打印出特定位置開始的字串，用 `&` 取位址，如下表示取第二個字元 (包含第二個字元) 以後的字串。
+
+    printf("%s", &str[1]);
 
 ##  2. <a name='Operation'></a>Operation
 ###  2.1. <a name='bitflagoperation'></a>bitflag operation
