@@ -5,11 +5,17 @@
 #include <errno.h>
 #include <termios.h>
 #include <sys/ioctl.h>
+#include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
 
 /*** defines ***/
 #define CTRL_KEY(k) ((k) & 0x1f)
+#define KILO_VERSION "0.0.1"
+#define ABUF_INIT \
+    {             \
+        NULL, 0   \
+    }
 
 /*** data ***/
 struct editorConfig
@@ -20,6 +26,31 @@ struct editorConfig
 };
 
 struct editorConfig E;
+
+/*** append buffer ***/
+struct abuf
+{
+    char *b;
+    int len;
+};
+
+void abAppend(struct abuf *ab, const char *s, int len)
+{
+    // Reallocate memory to increase the size of appending string
+    char *new = realloc(ab->b, ab->len + len);
+
+    if (new == NULL)
+        return;
+
+    memcpy(&new[ab->len], s, len);
+    ab->b = new;
+    ab->len += len;
+}
+
+void abFree(struct abuf *ab)
+{
+    free(ab->b);
+}
 
 /*** terminal ***/
 
@@ -123,23 +154,47 @@ int getWindowSize(int *rows, int *cols)
     return 0;
 }
 /*** output ***/
-void editorDrawRows()
+void editorDrawRows(struct abuf *ab)
 {
     int y;
     for (y = 0; y < E.screenrows; y++)
     {
-        write(STDOUT_FILENO, "~\r\n", 3);
+        if (y == E.screenrows / 3)
+        {
+            char welcome[80];
+            int welcomelen = snprintf(welcome, sizeof(welcome), "kilo editor -- version %s", KILO_VERSION);
+            if (welcomelen > E.screencols)
+            {
+                welcomelen = E.screencols;
+            }
+            abAppend(ab, welcome, welcomelen);
+        }
+        else
+        {
+            abAppend(ab, "~", 1);
+        }
+
+        abAppend(ab, "\x1b[K", 3);
+        if (y < E.screenrows - 1)
+        {
+            abAppend(ab, "\r\n", 2);
+        }
     }
 }
 
 void editorRefreshScreen()
 {
-    // Clear the entire screen & Move the cursor to left top
-    write(STDOUT_FILENO, "\x1b[2J", 4);
-    write(STDOUT_FILENO, "\x1b[H", 3);
+    struct abuf ab = ABUF_INIT;
 
-    editorDrawRows();
-    write(STDOUT_FILENO, "\x1b[H", 3);
+    abAppend(&ab, "\x1b[?25l", 6); // Hide the cursor
+    abAppend(&ab, "\x1b[H", 3);    // Move the cursor to left top
+
+    editorDrawRows(&ab);
+
+    abAppend(&ab, "\x1b[H", 3);
+    abAppend(&ab, "\x1b[?25h", 6);
+    write(STDOUT_FILENO, ab.b, ab.len);
+    abFree(&ab);
 }
 
 /*** init ***/
@@ -156,6 +211,7 @@ int main()
     initEditor();
     while (1)
     {
+        editorRefreshScreen();
         editorProcessKeypress();
     }
     return 0;
