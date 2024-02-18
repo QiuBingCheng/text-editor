@@ -42,6 +42,7 @@ void enableRawMode()
     if (tcgetattr(STDIN_FILENO, &E.orig_termios) == -1)
         die("tcgetattr");
 
+    // Called when the program exits normally
     atexit(disableRawMode);
 
     struct termios raw = E.orig_termios;
@@ -85,6 +86,7 @@ int getCursorPosition(int *rows, int *cols)
     char buf[32];
     unsigned int i = 0;
 
+    // Query the current cursor position
     if (write(STDOUT_FILENO, "\x1b[6n", 4) != 4)
         return -1;
 
@@ -110,6 +112,7 @@ int getWindowSize(int *rows, int *cols)
     struct winsize ws;
     if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0)
     {
+        // Move cursor to the right bottom
         if (write(STDOUT_FILENO, "\x1b[999C\x1b[999B", 12) != 12)
             return -1;
         getCursorPosition(rows, cols);
@@ -145,8 +148,6 @@ void initEditor()
 {
     if (getWindowSize(&E.screenrows, &E.screencols) == -1)
         die("getWindowSize");
-
-    // printf("#rows:%d #cols:%d", E.screenrows, E.screencols);
 }
 
 int main()
