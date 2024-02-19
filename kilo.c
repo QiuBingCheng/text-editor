@@ -167,6 +167,19 @@ void editorDrawRows(struct abuf *ab)
             {
                 welcomelen = E.screencols;
             }
+
+            // Center the welcome message
+            int padding = (E.screencols - welcomelen) / 2;
+            if (padding)
+            {
+                abAppend(ab, "~", 1);
+                padding--;
+            }
+            while (padding--)
+            {
+                abAppend(ab, " ", 1);
+            }
+
             abAppend(ab, welcome, welcomelen);
         }
         else
